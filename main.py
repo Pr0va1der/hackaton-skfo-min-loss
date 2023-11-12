@@ -1,3 +1,5 @@
+import re
+
 from PIL import Image, ImageDraw
 from imageai.Detection import ObjectDetection
 import os
@@ -93,7 +95,7 @@ def find_people(path):
 
 
 def find_danger(path):
-    camera_name = path.split("/")[-2]
+    camera_name = re.search(r'(.+)-\d+$', path.split("/")[-1].split(".")[0]).group(1)
     cords_data = None
     with open(f"danger/danger_{camera_name}.txt") as fp:
         cords_data = json.load(fp)
@@ -120,26 +122,7 @@ def main():
         draw.polygon(zone_coords, outline='blue', width=2)
     image.show()
     image.save('new_objects.jpg')
-    # if is_dangerous:
-    #     print(f"{True}, {result}")
-    #     image = Image.open("new_objects.jpg")
-    #     draw = ImageDraw.Draw(image)
-    #     dict_of_tuples = {key: list(map(tuple, value)) for key, value in danger_cords.items()}
-    #     for zone_id, zone_coords in dict_of_tuples.items():
-    #         draw.polygon(zone_coords, outline='blue', width=2)
-    #     image.show()
-    #     image.save('new_objects.jpg')
-    # else:
-    #     print(result)
-    #     image = Image.open("new_objects.jpg")
-    #     draw = ImageDraw.Draw(image)
-    #     dict_of_tuples = {key: list(map(tuple, value)) for key, value in danger_cords.items()}
-    #     for zone_id, zone_coords in dict_of_tuples.items():
-    #         draw.polygon(zone_coords, outline='blue', width=2)
-    #     image.show()
-    #     image.save('new_objects.jpg')
-    #     return
 
 
-if __name__ == '__main__':
+if name == 'main':
     main()
